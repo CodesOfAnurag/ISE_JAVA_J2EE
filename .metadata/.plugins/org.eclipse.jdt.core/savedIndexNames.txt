@@ -1,0 +1,2 @@
+INDEX VERSION 1.127+/home/sem6a/Desktop/java/.metadata/.plugins/org.eclipse.jdt.core
+79057836.index

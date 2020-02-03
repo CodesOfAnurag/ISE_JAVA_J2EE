@@ -1,0 +1,19 @@
+public class Student 
+{
+ int fees, age;
+ String name, addr, usn, type;
+ public Student(String name, String addr, String usn, String type, int fees, int age)
+ {
+	 this.name=name;
+	 this.addr=addr;
+	 this.usn=usn;
+	 this.type=type;
+	 this.fees=fees;
+	 this.age=age;	 
+ }
+ public String toString()
+ {
+	 return"Name: "+this.name+"\nAddress: "+this.addr+"\nUSN: "+this.usn+"\nType: "+this.type+"\nFees: "+this.fees+"\nAge: "+this.age;
+	 
+ }
+}
