@@ -38,6 +38,18 @@ public class GetData extends JFrame{
 						System.out.println(jt.getText());
 						details.add(jt.getText());
 					}
+					double sum=0;
+					int count=0;
+					for(JTextField jt : sgpa)
+					{
+						String x = jt.getText();
+						if (x!=null || !x.equals("0")){
+							sum+=Double.parseDouble(x);
+							count++;
+						}
+					}
+					details.add(Double.toString(sum/count));
+					System.out.println(details);
 				}
 			}
 		);
