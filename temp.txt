@@ -1,0 +1,61 @@
+package cgpa;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.*;
+
+import javax.swing.*;
+
+public class GetData extends JFrame{
+	
+	JButton calc, disp;
+	ArrayList<JTextField> info = new ArrayList<JTextField>();
+	ArrayList<JTextField> sgpa = new ArrayList<JTextField>();
+	ArrayList<String> details = new ArrayList<String>();
+	GetData(){
+		super("CGPA Calculator");
+		
+		String[] infoLabel = {"Name", "Age", "Gender", "USN", "Address"};
+		for(int i=0; i<infoLabel.length; i++ ){
+			info.add(new JTextField());
+			add(new JLabel(infoLabel[i]));
+			add(info.get(i));
+		}
+		
+		String label;
+		for(int i=0; i<8; i++){
+			label="SGPA Semester "+(i+1);
+			add(new JLabel(label));
+			sgpa.add(new JTextField());
+			add(sgpa.get(i));
+		}
+		
+		calc = new JButton("Calculate CGPA");
+		add(calc);
+		calc.addActionListener(new ActionListener(){
+				public void actionPerformed(ActionEvent evt){
+					for(JTextField jt : info){
+						System.out.println(jt.getText());
+						details.add(jt.getText());
+					}
+				}
+			}
+		);
+		disp = new JButton("Display");
+		add(disp);
+		disp.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent evt){
+				System.out.println("Hello");
+			}
+		}
+	);
+	}
+	
+	public static void main(String args[]){
+		GetData gd = new GetData();
+		gd.setVisible(true);
+		gd.setSize(320,320);
+		gd.setLayout(new GridLayout(15,2));
+	}
+	
+}
