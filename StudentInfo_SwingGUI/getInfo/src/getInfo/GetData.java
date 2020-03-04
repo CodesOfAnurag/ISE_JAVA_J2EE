@@ -1,110 +1,119 @@
-package getInfo;
-
-import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.*;
 import javax.swing.*;
 
-public class GetData extends JFrame{
-	
-	JButton calc, disp;
-	JTextArea databaseEntry;
-	ArrayList<JTextField> info = new ArrayList<JTextField>();
-	ArrayList<JTextField> sgpa = new ArrayList<JTextField>();
-	ArrayList<Student> details = new ArrayList<Student>();
-	GetData(){
-		
-		super("CGPA Calculator");
-		
-		String[] infoLabel = {"Name", "Age", "Gender", "USN", "Address"};
-		for(int i=0; i<infoLabel.length; i++ ){
-			info.add(new JTextField());
-			add(new JLabel(infoLabel[i]));
-			add(info.get(i));
-		}
-		
-		String label;
-		for(int i=0; i<8; i++){
-			label="SGPA Semester "+(i+1);
-			add(new JLabel(label));
-			sgpa.add(new JTextField());
-			add(sgpa.get(i));
-		}
-		
-		calc = new JButton("Calculate CGPA");
-		add(calc);
-		
-		disp = new JButton("Display");
-		add(disp);
-		
-		databaseEntry = new JTextArea();
-		add(databaseEntry);
-		
-		calc.addActionListener(new ActionListener()
-			{
-				public void actionPerformed(ActionEvent evt) {
-					ArrayList<String> studentArg = new ArrayList<String>();
-					try {
-						for (JTextField x : info) {
-							if (!x.getText().equals(""))
-								studentArg.add(x.getText());
-							else
-								throw new NullPointerException();
-						}
-						Double cgpa = 0.0, count = 0.0;
-						for (JTextField x : sgpa) {
-							if (!x.getText().equals("")) {
-								cgpa+=Double.parseDouble(x.getText());
-								count++;
-							}
-						}
-						cgpa/=count;
-						studentArg.add(""+cgpa);
-						Student std = new Student(studentArg.get(0), studentArg.get(1), studentArg.get(2), studentArg.get(3), studentArg.get(4), studentArg.get(5));
-						details.add(std);
-						databaseEntry.setText("Student Added: "+std+"CGPA: "+std.cgpa);
-						JOptionPane.showMessageDialog(null, "Added: "+std, "Added to database", JOptionPane.INFORMATION_MESSAGE);
-					}
-					catch (NullPointerException e){
-						System.out.println(e);
-						JOptionPane.showMessageDialog(null, "Please provide all Student information", "Error",JOptionPane.ERROR_MESSAGE);
-					}
-					catch (ArithmeticException e) {
-						System.out.println(e);
-						JOptionPane.showMessageDialog(null, "Can't Calculate CGPA, no SGPA provided", "Error",JOptionPane.ERROR_MESSAGE);
-					}
-					catch (Exception e) {
-						JOptionPane.showMessageDialog(null, "Invalid Data", "Error",JOptionPane.ERROR_MESSAGE);
-					}
-					
-				}
-			}
-		);
+import java.awt.*;
+import java.awt.event.*;
+import java.util.*;
 
+public class UI {
+	private static Component add;
+	
+	Customer cTemp;
+
+	public static void main(String args[]){
+/*		
+		// login users
+		HashMap<String, String> hm =new HashMap<String, String>();
+		hm.put("ADMIN", "admin");
+		hm.put("SHOP", "shop");
 		
-		disp.addActionListener(new ActionListener()
-			{
-				public void actionPerformed(ActionEvent evt){
-					String s = "";
-					for (Student x : details)
-						s+=x;
-					System.out.println(s);
-					databaseEntry.setText(s+"Total Records: "+details.size());
-					if (!s.equals(""))
-						JOptionPane.showMessageDialog(null, s+"\nTotal Records: "+details.size(), "Records", JOptionPane.PLAIN_MESSAGE);
-					else
-						JOptionPane.showMessageDialog(null, "No Record Entered", "Records", JOptionPane.INFORMATION_MESSAGE);
+		int i=0;
+		
+		String login = JOptionPane.showInputDialog(null, "Enter LoginID");
+		for(i=0; !hm.keySet().contains(login) && i<2 ;i++)
+			login = JOptionPane.showInputDialog(null, "Enter correct LoginID", "", JOptionPane.WARNING_MESSAGE);
+		if (i==3){
+			JOptionPane.showMessageDialog(null, "Exceeded maximum attempts","Bye", JOptionPane.ERROR_MESSAGE);
+			System.exit(0);
+		}
+			
+		
+		String pass = JOptionPane.showInputDialog(null, "Enter Password");
+		for(i=0; !hm.get(login).equals(pass) && i<2;i++)
+			pass = JOptionPane.showInputDialog(null, "Enter correct Password", "", JOptionPane.WARNING_MESSAGE);
+		if (i==3){
+			JOptionPane.showMessageDialog(null, "Exceeded maximum attempts","Bye", JOptionPane.ERROR_MESSAGE);
+			System.exit(0);
+		}
+		
+		JOptionPane.showMessageDialog(null, "Successful Login", "Success", JOptionPane.INFORMATION_MESSAGE);
+*/
+		
+		HashMap<Integer, Customer> hpno = new HashMap<Integer, Customer>();
+		hpno.put(123456, new Customer(101, 123456, "Anurag"));
+		hpno.put(987654, new Customer(102, 987654, "Anupam"));
+		
+		JFrame inputCustomer = new JFrame("Customer");
+		
+		JPanel cPane = new JPanel();
+		cPane.setLayout(new GridLayout(2,2));
+		
+		JTextField phone;
+
+		phone = new JTextField(15);
+		
+		cPane.add(new JLabel("Customer Phone"));
+		cPane.add(phone);
+		
+		JPanel btnPane = new JPanel();
+		//btnPane.setLayout(new GridLayout(3,1));
+		
+		JButton addB, findB, itemB;
+		addB = new JButton("Add");
+		findB = new JButton("Find");
+		itemB = new JButton("Items");
+		itemB.setEnabled(false);
+		
+		btnPane.add(addB);
+		btnPane.add(findB);
+		btnPane.add(itemB);
+		
+		inputCustomer.add(cPane);
+		inputCustomer.add(btnPane);
+		
+		inputCustomer.setVisible(true);
+		inputCustomer.setSize(320, 320);
+		inputCustomer.setLayout(new GridLayout(4,1));
+		
+		JTextArea customerInfo = new JTextArea(150,150);
+		customerInfo.setEnabled(false);
+		inputCustomer.add(customerInfo);
+		
+		
+		addB.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent evt) {
+				if (hpno.keySet().contains(Integer.parseInt(phone.getText())))
+					JOptionPane.showMessageDialog(null, "Already Exists", "Error", JOptionPane.ERROR_MESSAGE);
+				else {
+					int id = Integer.parseInt(JOptionPane.showInputDialog(null, "Enter ID", "Customer ID", JOptionPane.INFORMATION_MESSAGE));
+					String name = JOptionPane.showInputDialog(null, "Enter Name", "Customer Name", JOptionPane.INFORMATION_MESSAGE);
+					Customer cTemp = new Customer(id, Integer.parseInt(phone.getText()), name);
+					hpno.put(cTemp.phone, cTemp);
+					System.out.println(cTemp);
+					phone.setEnabled(false);
+					addB.setEnabled(false);
+					findB.setEnabled(false);
+					itemB.setEnabled(true);
+					customerInfo.setText("Customer Selected\n"+cTemp);
 				}
 			}
-		);		
+		});
+		
+		findB.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent evt) {
+				if (hpno.keySet().contains(Integer.parseInt(phone.getText()))) {
+					JOptionPane.showMessageDialog(null, "Customer Found", "Detail Exists", JOptionPane.INFORMATION_MESSAGE);
+					Customer cTemp = hpno.get(Integer.parseInt(phone.getText()));
+					phone.setEnabled(false);
+					addB.setEnabled(false);
+					findB.setEnabled(false);
+					itemB.setEnabled(true);
+					customerInfo.setText("Customer Selected\n"+cTemp);
+				}
+				else {
+					JOptionPane.showMessageDialog(null, "Customer Doesn't Exists", "Error", JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
+		
 	}
-	
-	public static void main(String args[]){
-		GetData gd = new GetData();
-		gd.setVisible(true);
-		gd.setSize(480,480);
-		gd.setLayout(new GridLayout(16,2));
-	}
-	
 }
