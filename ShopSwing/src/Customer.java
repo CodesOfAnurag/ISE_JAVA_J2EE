@@ -8,6 +8,6 @@ public class Customer {
 		name=n;
 	}
 	public String toString(){
-		return id+" | "+name+" | "+phone;
+		return "Customer Id: "+id+"\nCustomer Name: "+name+"\nCustomer Phone: "+phone;
 	}
 }
