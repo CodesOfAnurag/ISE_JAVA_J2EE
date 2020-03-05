@@ -8,6 +8,6 @@ public class Item {
 		cost=c;
 	}
 	public String toString(){
-		return id+" | "+name+" | "+cost;
+		return "Item ID: "+id+"\nItem Name: "+name+"\nPrice: "+cost;
 	}
 }
