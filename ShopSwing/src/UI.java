@@ -90,14 +90,13 @@ public class UI {
 		inputCustomer.add(cPane);
 		inputCustomer.add(btnPane);
 		
-		inputCustomer.setVisible(false);
-		inputCustomer.setSize(320, 320);
-		inputCustomer.setLayout(new GridLayout(4,1));
-		
 		JTextArea customerInfo = new JTextArea(150,150);
-		customerInfo.setEnabled(true);
+		customerInfo.setEnabled(false);
 		inputCustomer.add(customerInfo);
 		
+		inputCustomer.setVisible(true);
+		inputCustomer.setSize(320, 320);
+		inputCustomer.setLayout(new GridLayout(4,1));
 		
 		JPanel iPane = new JPanel();
 		iPane.setLayout(new GridLayout(2,2));
